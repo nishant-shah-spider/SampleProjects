@@ -9,15 +9,37 @@ using System.Data;
 
 namespace AddressValidationTest
 {
-    class Core
+    public class Core
     {
         string connectionString = null;
         SqlConnection connection = null;
-        Address addr = new Address();
-        WebServices ws = new WebServices();
+        public Address addr = null; 
+        public WebServices ws = null;
+        public StringBuilder differenceDetails = new StringBuilder();
+        public string fullAddressOfWebService1 = null; 
+        public string fullAddressOfWebService2 = null; 
+
+        public Address addrwebService1 = null; 
+        public Address addrwebService2 = null;   
+
         public Core()
         {
-            connectionString = new SqlConnection(ConfigurationManager.ConnectionStrings["Test"].ConnectionString).ToString();
+            try
+            {
+                connectionString = new SqlConnection(ConfigurationManager.ConnectionStrings["Test"].ConnectionString).ToString();
+                addr = new Address();
+                ws = new WebServices();
+                fullAddressOfWebService1 = String.Empty;
+                fullAddressOfWebService2 = String.Empty;
+                differenceDetails.Append(String.Empty);
+                addrwebService1 = new Address();
+                addrwebService2 = new Address();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Some error occurred:- " + ex.ToString());
+            }
+           
         }
 
 
@@ -49,7 +71,8 @@ namespace AddressValidationTest
                           addr.PostalCode = dr.GetString(6);
 
                           CompareAPIResults();
-
+                          //Inserting the result into a new table
+                          InsertResultsIntoDB(fullAddressOfWebService1, fullAddressOfWebService2, differenceDetails.ToString());
                         }
                     }
                 }
@@ -93,60 +116,75 @@ namespace AddressValidationTest
         public void CompareAPIResults()
         {
            try
-           {
-               Address addrwebService1 = new Address();
-               Address addrwebService2 = new Address();
-               StringBuilder differenceDetails = new StringBuilder();
+           {            
+
+              
+               addrwebService2 = ws.SecondService(addr);
+               addrwebService2 = new Address();
+               addrwebService2.Line1 = addr.Line1;
+               addrwebService2.Line2 = addr.Line2;
+               addrwebService2.Line3 = addr.Line3;
+               addrwebService2.Region = addr.Region;
+               addrwebService2.Country = addr.Country;
+               addrwebService2.PostalCode = addr.PostalCode;
+               addrwebService2.City = addr.City;
+
+               fullAddressOfWebService2 = addrwebService2.Line1 + " " + addrwebService2.Line2 + " " + addrwebService2.Line3 + " " +
+                                                addrwebService2.City + " " + addrwebService2.Country + " " + addrwebService2.Region + " " +
+                                                addrwebService2.PostalCode;
 
                addrwebService1 = ws.FirstService(addr);
-               addrwebService2 = ws.SecondService(addr);
+               addrwebService1 = new Address();
+               addrwebService1.Line1 = addr.Line1;
+               addrwebService1.Line2 = addr.Line2;
+               addrwebService1.Line3 = addr.Line3;
+               addrwebService1.Region = addr.Region;
+               addrwebService1.Country = addr.Country;
+               addrwebService1.PostalCode = addr.PostalCode;
+               addrwebService1.City = addr.City;
 
-               string fullAddressOfWebService1 = addrwebService1.Line1+" "+addrwebService1.Line2+" "+addrwebService1.Line3+" "+
+               fullAddressOfWebService1 = addrwebService1.Line1+" "+addrwebService1.Line2+" "+addrwebService1.Line3+" "+
                                                  addrwebService1.City+" "+addrwebService1.Country+" "+addrwebService1.Region+" "+
                                                  addrwebService1.PostalCode;
 
-              string fullAddressOfWebService2 = addrwebService2.Line1+" "+addrwebService2.Line2+" "+addrwebService2.Line3+" "+
-                                                 addrwebService2.City+" "+addrwebService2.Country+" "+addrwebService2.Region+" "+
-                                                 addrwebService2.PostalCode;
 
                //Comparing each Address attribute of both Webservices
                if(!addrwebService1.Line1.ToUpper().Equals(addrwebService2.Line1.ToUpper()))
                {
-                   differenceDetails.Append("Line1 for WebService1:-" + addrwebService1.Line1 + ". Line1 for WebService2:-" + addrwebService2.Line1);
+                   differenceDetails.Append("Line1 for WebService1:- " + addrwebService1.Line1 + ". Line1 for WebService2:- " + addrwebService2.Line1);
                }
 
                if (!addrwebService1.Line2.ToUpper().Equals(addrwebService2.Line2.ToUpper()))
                {
-                   differenceDetails.Append("Line2 for WebService1:-" + addrwebService1.Line2 + ". Line2 for WebService2:-" + addrwebService2.Line2);
+                   differenceDetails.Append("Line2 for WebService1:- " + addrwebService1.Line2 + ". Line2 for WebService2:- " + addrwebService2.Line2);
                }
 
                if (!addrwebService1.Line3.ToUpper().Equals(addrwebService2.Line3.ToUpper()))
                {
-                   differenceDetails.Append("Line3 for WebService1:-" + addrwebService1.Line3 + ". Line3 for WebService2:-" + addrwebService2.Line3);
+                   differenceDetails.Append("Line3 for WebService1:- " + addrwebService1.Line3 + ". Line3 for WebService2:- " + addrwebService2.Line3);
                }
 
                if (!addrwebService1.Country.ToUpper().Equals(addrwebService2.Country.ToUpper()))
                {
-                   differenceDetails.Append("Country for WebService1:-" + addrwebService1.Country + ". Country for WebService2:-" + addrwebService2.Country);
+                   differenceDetails.Append("Country for WebService1:- " + addrwebService1.Country + ". Country for WebService2:- " + addrwebService2.Country);
                }
 
                if (!addrwebService1.City.ToUpper().Equals(addrwebService2.City.ToUpper()))
                {
-                   differenceDetails.Append("City for WebService1:-" + addrwebService1.City + ". City for WebService2:-" + addrwebService2.City);
+                   differenceDetails.Append("City for WebService1:- " + addrwebService1.City + ". City for WebService2:- " + addrwebService2.City);
                }
 
                if (!addrwebService1.Region.ToUpper().Equals(addrwebService2.Region.ToUpper()))
                {
-                   differenceDetails.Append("Region for WebService1:-" + addrwebService1.Region + ". Region for WebService2:-" + addrwebService2.Region);
+                   differenceDetails.Append("Region for WebService1:- " + addrwebService1.Region + ". Region for WebService2:- " + addrwebService2.Region);
                }
 
                if (!addrwebService1.PostalCode.ToUpper().Equals(addrwebService2.PostalCode.ToUpper()))
                {
-                   differenceDetails.Append("PostalCode for WebService1:-" + addrwebService1.PostalCode + ". PostalCode for WebService2:-" + addrwebService2.PostalCode);
+                   differenceDetails.Append("PostalCode for WebService1:- " + addrwebService1.PostalCode + ". PostalCode for WebService2:- " + addrwebService2.PostalCode);
                }
 
-               //Inserting the result into a new table
-               InsertResultsIntoDB(fullAddressOfWebService1, fullAddressOfWebService2, differenceDetails.ToString());
+              
                
            }
            catch (Exception e)

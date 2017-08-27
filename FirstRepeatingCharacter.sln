@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstNonRepeatingChar", "Fi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressValidationTest", "AddressValidationTest\AddressValidationTest.csproj", "{9BEE6A64-480C-469B-B120-4C1F73B5FB72}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAddressValidation", "TestAddressValidation\TestAddressValidation.csproj", "{255BB335-FC6C-4546-8F8A-E6AB17B5C791}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9BEE6A64-480C-469B-B120-4C1F73B5FB72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BEE6A64-480C-469B-B120-4C1F73B5FB72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BEE6A64-480C-469B-B120-4C1F73B5FB72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{255BB335-FC6C-4546-8F8A-E6AB17B5C791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{255BB335-FC6C-4546-8F8A-E6AB17B5C791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{255BB335-FC6C-4546-8F8A-E6AB17B5C791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{255BB335-FC6C-4546-8F8A-E6AB17B5C791}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

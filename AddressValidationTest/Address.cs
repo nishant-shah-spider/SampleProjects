@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AddressValidationTest
 {
-    class Address
+    public class Address
     {
         public int Id { get; set; }
         public string Line1 { get; set; }

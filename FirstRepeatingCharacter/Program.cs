@@ -7,46 +7,57 @@ using System.Threading.Tasks;
 
 namespace FirstNonRepeatingChar
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+       public static void Main(string[] args)
         {
             Console.WriteLine("Enter the Input String:-");
             string inputString = Console.ReadLine().Trim();
-            
-            bool isRepeating = false;
+            String nonRepeating = GetFirstNonRepeatingChar(inputString);
 
-            if (String.IsNullOrWhiteSpace(inputString))
-            {
-                Console.WriteLine("Please avoid entering only spaces or keeping the input string blank");
-                
-            }
+           if(String.IsNullOrEmpty(nonRepeating))
+           {
+               Console.WriteLine("String has Either only Spaces OR NO non-Repeating characters");
+           }
 
-            for(int i=0;i<inputString.Length;i++)
-            {
-                
-                isRepeating = false;
-
-                for(int j=0;j<inputString.Length;j++)
-                {
-                    if (i == j)
-                        continue;
-                    if (inputString[i].Equals(inputString[j]))
-                        isRepeating = true;
-                }
-
-                if(isRepeating==false)
-                {
-                    Console.WriteLine("First Non-Repeating character:-" + inputString[i]);
-                    break;
-                }
-
-            }
-
-            if (isRepeating == true)
-                Console.WriteLine("Sorry..There are no Non-Repeating characters here");
-            Console.WriteLine("Press Enter to Quit");
-            Console.ReadLine();
+           Console.WriteLine(nonRepeating);
+           Console.ReadLine();
         }
+
+       public static String GetFirstNonRepeatingChar(String inputString)
+       {
+           bool isRepeating = false;
+
+           if (String.IsNullOrWhiteSpace(inputString))
+           {
+               return null;
+              
+           }
+
+           for (int i = 0; i < inputString.Length; i++)
+           {
+
+               isRepeating = false;
+
+               for (int j = 0; j < inputString.Length; j++)
+               {
+                   if (i == j)
+                       continue;
+                   if (inputString[i].Equals(inputString[j]))
+                       isRepeating = true;
+               }
+
+               if (isRepeating == false)
+               {
+                   Console.WriteLine("First Non-Repeating character:-");
+                   return inputString[i].ToString();
+               }
+
+           }
+
+           
+               return null;
+           
+       }
     }
 }

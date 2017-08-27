@@ -6,18 +6,20 @@ using System.Threading.Tasks;
 
 namespace AddressValidationTest
 {
-    class WebServices
+    public class WebServices
     {
-        public Address FirstService(Address addr)
+        public Address FirstService(Address adr)
         {
-            addr.Region = addr.Region.Substring(0, 2).ToUpper();
-            return addr;
+            Address adr2 = new Address();
+            adr2 = adr;
+            adr2.Region = adr2.Region.Substring(0, 2).ToUpper();
+            return adr2;
 
         }
 
-        public Address SecondService(Address addr)
+        public Address SecondService(Address adr)
         {
-            return addr;
+            return adr;
         }
     }
 }
